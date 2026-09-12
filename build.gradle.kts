@@ -67,17 +67,20 @@ publishing {
         maven {
 
             val properties = Properties()
-            file("secret.properties").inputStream().use {
-                properties.load(it)
+            val file = file("secret.properties")
+            if (file.exists()) {
+                file("secret.properties").inputStream().use {
+                    properties.load(it)
+                }
+
+                val releasesUrl = uri("https://nexus.vinerium.tech/repository/maven-releases/")
+                val snapshotsUrl = uri("https://nexus.vinerium.tech/repository/maven-snapshots/")
+
+                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsUrl else releasesUrl
+
+                credentials.username = properties.getProperty("username")
+                credentials.password = properties.getProperty("password")
             }
-
-            val releasesUrl = uri("https://nexus.vinerium.tech/repository/maven-releases/")
-            val snapshotsUrl = uri("https://nexus.vinerium.tech/repository/maven-snapshots/")
-
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsUrl else releasesUrl
-
-            credentials.username = properties.getProperty("username")
-            credentials.password = properties.getProperty("password")
         }
     }
 }
