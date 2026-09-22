@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.utils;
+package org.saintqd.asurelib.utils;
 
 import java.util.NavigableMap;
 import java.util.Random;

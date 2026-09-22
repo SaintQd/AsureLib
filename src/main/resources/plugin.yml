@@ -1,14 +1,14 @@
-name: VineriumLib
+name: AsureLib
 version: 1.0
 author: SaintQd
-main: org.saintqd.vineriumlib.VineriumLib
-api-version: 1.21.8
+main: org.saintqd.asurelib.AsureLib
+api-version: 26.2
 softdepend:
   - Vault
   - PlaceholderAPI
   - DiscordSRV
   - MythicMobs
 permissions:
-  vineriumlib.admin:
+  asurelib.admin:
     description: Access to admin commands.
     default: op

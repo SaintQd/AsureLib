@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.listeners;
+package org.saintqd.asurelib.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,8 +12,8 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.saintqd.vineriumlib.gui.data.CustomGUI;
-import org.saintqd.vineriumlib.gui.holders.VinGUIHolder;
+import org.saintqd.asurelib.gui.data.CustomGUI;
+import org.saintqd.asurelib.gui.holders.AsureGUIHolder;
 
 import java.util.Base64;
 
@@ -23,16 +23,16 @@ public class GUIListener implements Listener {
     public void onInventoryClick(final InventoryClickEvent event) {
         final Player player = (Player) event.getWhoClicked();
 
-        if (!(event.getInventory().getHolder() instanceof VinGUIHolder)) return;
+        if (!(event.getInventory().getHolder() instanceof AsureGUIHolder)) return;
 
-        if (player.getOpenInventory().getTopInventory().getHolder() instanceof VinGUIHolder vinGUIHolder) {
-            vinGUIHolder.getGui().processClick(event);
+        if (player.getOpenInventory().getTopInventory().getHolder() instanceof AsureGUIHolder asureGUIHolder) {
+            asureGUIHolder.getGui().processClick(event);
         }
     }
 
     @EventHandler
     public void onInventoryDrag(final InventoryDragEvent event) {
-        if (!(event.getInventory().getHolder() instanceof VinGUIHolder)) return;
+        if (!(event.getInventory().getHolder() instanceof AsureGUIHolder)) return;
         for (int slot : event.getRawSlots())
             if (slot <= event.getInventory().getSize() - 1)
                 event.setCancelled(true);
@@ -40,8 +40,8 @@ public class GUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getInventory().getHolder() instanceof VinGUIHolder vinGUIHolder)) return;
-        if (vinGUIHolder.getGui() instanceof CustomGUI customGUI) {
+        if (!(event.getInventory().getHolder() instanceof AsureGUIHolder asureGUIHolder)) return;
+        if (asureGUIHolder.getGui() instanceof CustomGUI customGUI) {
             if (!event.getPlayer().getPersistentDataContainer().has(CustomGUI.getPendingReplacementKey())) {
                 CustomGUI.restoreInventory((Player) event.getPlayer());
             }
@@ -50,7 +50,7 @@ public class GUIListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (!(event.getPlayer().getOpenInventory().getTopInventory().getHolder() instanceof VinGUIHolder vinGUIHolder)) return;
+        if (!(event.getPlayer().getOpenInventory().getTopInventory().getHolder() instanceof AsureGUIHolder asureGUIHolder)) return;
         if (!event.getPlayer().getPersistentDataContainer().has(CustomGUI.getReplacedInventoryKey())) return;
         event.getDrops().clear();
         String[] itemString = event.getPlayer().getPersistentDataContainer().get(CustomGUI.getReplacedInventoryKey(), PersistentDataType.STRING).split(";");

@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.gui.data;
+package org.saintqd.asurelib.gui.data;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
@@ -18,26 +18,26 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.intellij.lang.annotations.Subst;
-import org.saintqd.vineriumlib.VineriumLib;
-import org.saintqd.vineriumlib.gui.VinGUI;
-import org.saintqd.vineriumlib.gui.VinGUIButton;
-import org.saintqd.vineriumlib.gui.holders.VinGUIHolder;
-import org.saintqd.vineriumlib.managers.VaultManager;
-import org.saintqd.vineriumlib.utils.VinUtils;
+import org.saintqd.asurelib.AsureLib;
+import org.saintqd.asurelib.gui.AsureGUI;
+import org.saintqd.asurelib.gui.AsureGUIButton;
+import org.saintqd.asurelib.gui.holders.AsureGUIHolder;
+import org.saintqd.asurelib.managers.VaultManager;
+import org.saintqd.asurelib.utils.AsureUtils;
 
 import java.io.File;
 import java.util.*;
 
-public class CustomGUI extends VinGUI {
+public class CustomGUI extends AsureGUI {
 
-    private final static NamespacedKey REPLACED_INVENTORY_KEY = new NamespacedKey(VineriumLib.inst(),"replaced_inventory");
-    private final static NamespacedKey PENDING_REPLACEMENT_KEY = new NamespacedKey(VineriumLib.inst(),"pending_replacement");
+    private final static NamespacedKey REPLACED_INVENTORY_KEY = new NamespacedKey(AsureLib.inst(),"replaced_inventory");
+    private final static NamespacedKey PENDING_REPLACEMENT_KEY = new NamespacedKey(AsureLib.inst(),"pending_replacement");
 
     private final ConfigurationSection menuConfig;
 
     public CustomGUI(Player player, NamespacedKey guiKey) {
         super(player);
-        File file = new File(VineriumLib.inst().getCustomGUIManager().getGuiPaths().get(guiKey));
+        File file = new File(AsureLib.inst().getCustomGUIManager().getGuiPaths().get(guiKey));
         if (file.exists()) {
             menuConfig = YamlConfiguration.loadConfiguration(file).getConfigurationSection(guiKey.getKey());
         }
@@ -81,22 +81,22 @@ public class CustomGUI extends VinGUI {
         if (event.getClick().isShiftClick() || event.getClick().isKeyboardClick())
             event.setCancelled(true);
         int slot = event.getRawSlot();
-        VinGUIButton button = getButtons().get(slot);
+        AsureGUIButton button = getButtons().get(slot);
         if (button != null)
             button.getEventConsumer().accept(event);
     }
 
     public void setMainMenu() {
         if (menuConfig == null) {
-            setInventory(Bukkit.createInventory(new VinGUIHolder(this), 36, Component.empty()));
+            setInventory(Bukkit.createInventory(new AsureGUIHolder(this), 36, Component.empty()));
             getItems().clear();
             getButtons().clear();
             return;
         }
 
-        Component displayName = VinUtils.parseString(menuConfig.getString("DisplayName",""));
+        Component displayName = AsureUtils.parseString(menuConfig.getString("DisplayName",""));
         int guiSize = menuConfig.getInt("Size",36);
-        setInventory(Bukkit.createInventory(new VinGUIHolder(this), guiSize, displayName));
+        setInventory(Bukkit.createInventory(new AsureGUIHolder(this), guiSize, displayName));
         getButtons().clear();
         if (!menuConfig.contains("Icons"))
             return;
@@ -123,10 +123,10 @@ public class CustomGUI extends VinGUI {
                 else guiItem = ItemStack.of(Material.STONE, amount);
 
                 if (iconDisplayConfig.contains("Name")) {
-                    String parsedName = VineriumLib.inst().isPlaceholderAPIEnabled()
+                    String parsedName = AsureLib.inst().isPlaceholderAPIEnabled()
                             ? PlaceholderAPI.setPlaceholders(getPlayer(),iconDisplayConfig.getString("Name", ""))
                             : iconDisplayConfig.getString("Name", "");
-                    guiItem.setData(DataComponentTypes.CUSTOM_NAME, VinUtils.parseString(parsedName));
+                    guiItem.setData(DataComponentTypes.CUSTOM_NAME, AsureUtils.parseString(parsedName));
                 }
 
                 PotionContents.Builder potionContents = guiItem.getType().name().endsWith("POTION") ? PotionContents.potionContents() : null;
@@ -148,9 +148,9 @@ public class CustomGUI extends VinGUI {
                 if (iconDisplayConfig.contains("Lore"))
                     if (!guiItemLore.isEmpty())
                         guiItemLore.add(Component.space());
-                iconDisplayConfig.getStringList("Lore").forEach(line -> guiItemLore.add(VineriumLib.inst().isPlaceholderAPIEnabled()
-                        ? VinUtils.parseString(PlaceholderAPI.setPlaceholders(getPlayer(), line))
-                        : VinUtils.parseString(line)
+                iconDisplayConfig.getStringList("Lore").forEach(line -> guiItemLore.add(AsureLib.inst().isPlaceholderAPIEnabled()
+                        ? AsureUtils.parseString(PlaceholderAPI.setPlaceholders(getPlayer(), line))
+                        : AsureUtils.parseString(line)
                 ));
 
                 if (iconDisplayConfig.contains("ItemModel")) {
@@ -170,19 +170,19 @@ public class CustomGUI extends VinGUI {
             boolean purchaseCheck = true;
             if (iconConfig.contains("Price")) {
                 guiItemLore.add(Component.space());
-                if (iconConfig.contains("Price.Money") && VineriumLib.inst().getVaultManager() != null
-                && VineriumLib.inst().getVaultManager().getEconomyProvider() != null) {
-                    VaultManager vaultManager = VineriumLib.inst().getVaultManager();
+                if (iconConfig.contains("Price.Money") && AsureLib.inst().getVaultManager() != null
+                && AsureLib.inst().getVaultManager().getEconomyProvider() != null) {
+                    VaultManager vaultManager = AsureLib.inst().getVaultManager();
                     double price = iconConfig.getDouble("Price.Money");
                     if (vaultManager.getEconomyProvider().getBalance(getPlayer()) >= price)
-                        guiItemLore.add(VineriumLib.inst().getLangManager().parseLangString(VineriumLib.inst(),"custom_gui_price_money_true",Double.toString(price)));
+                        guiItemLore.add(AsureLib.inst().getLangManager().parseLangString(AsureLib.inst(),"custom_gui_price_money_true",Double.toString(price)));
                     else {
                         purchaseCheck = false;
-                        guiItemLore.add(VineriumLib.inst().getLangManager().parseLangString(VineriumLib.inst(),"custom_gui_price_money_falce",Double.toString(price)));
+                        guiItemLore.add(AsureLib.inst().getLangManager().parseLangString(AsureLib.inst(),"custom_gui_price_money_falce",Double.toString(price)));
                     }
                 }
                 if (purchaseCheck)
-                    guiItemLore.add(VineriumLib.inst().getLangManager().parseLangString(VineriumLib.inst(),"custom_gui_purchase_check"));
+                    guiItemLore.add(AsureLib.inst().getLangManager().parseLangString(AsureLib.inst(),"custom_gui_purchase_check"));
             }
 
             guiItem.setData(DataComponentTypes.LORE, ItemLore.lore().addLines(guiItemLore).build());
@@ -195,9 +195,9 @@ public class CustomGUI extends VinGUI {
             tooltipDisplay.addHiddenComponents(DataComponentTypes.ATTRIBUTE_MODIFIERS);
             guiItem.setData(DataComponentTypes.TOOLTIP_DISPLAY,tooltipDisplay);
 
-            VinGUIButton actionButton = null;
+            AsureGUIButton actionButton = null;
             if (iconConfig.contains("Actions") && purchaseCheck) {
-                actionButton = new VinGUIButton().consumer(event -> performActions(iconName));
+                actionButton = new AsureGUIButton().consumer(event -> performActions(iconName));
             }
 
             if (iconConfig.contains("Location")) {
@@ -220,7 +220,7 @@ public class CustomGUI extends VinGUI {
     }
 
     private void performActions(String iconName) {
-        VaultManager vaultManager = VineriumLib.inst().getVaultManager();
+        VaultManager vaultManager = AsureLib.inst().getVaultManager();
         ConfigurationSection iconConfig = menuConfig.getConfigurationSection("Icons."+iconName);
         if (iconConfig == null)
             return;
@@ -234,13 +234,13 @@ public class CustomGUI extends VinGUI {
                     purchaseCheck = false;
             }
             if (!purchaseCheck) {
-                getPlayer().sendMessage(VineriumLib.inst().getLangManager().parseLangString(VineriumLib.inst(),"custom_gui_purchase_check_deny"));
+                getPlayer().sendMessage(AsureLib.inst().getLangManager().parseLangString(AsureLib.inst(),"custom_gui_purchase_check_deny"));
                 setMainMenu();
                 openInventory(getPlayer());
                 return;
             }
 
-            String[] soundData = VineriumLib.inst().getConfig()
+            String[] soundData = AsureLib.inst().getConfig()
                     .getString("CustomGUI.PurchaseSound", "entity.player.levelup").split(",");
             String purchaseSound = soundData[0];
             float volume = soundData.length > 1 ? Float.parseFloat(soundData[1]) : 1.0f;
@@ -249,7 +249,7 @@ public class CustomGUI extends VinGUI {
 
             if (priceConfig.contains("Money") && vaultManager != null && vaultManager.getEconomyProvider() != null)
                 vaultManager.getEconomyProvider().withdrawPlayer(getPlayer(),priceConfig.getDouble("Money"));
-            getPlayer().sendMessage(VineriumLib.inst().getLangManager().parseLangString(VineriumLib.inst(),"custom_gui_purchase_success"));
+            getPlayer().sendMessage(AsureLib.inst().getLangManager().parseLangString(AsureLib.inst(),"custom_gui_purchase_success"));
             setMainMenu();
             openInventory(getPlayer());
         }
@@ -258,7 +258,7 @@ public class CustomGUI extends VinGUI {
         if (actionConfig.contains("Message")) {
             for (String message : actionConfig.getStringList("Message")) {
                 String parsedMessage = parseMessagePlaceholders(iconConfig,message);
-                getPlayer().sendMessage(VinUtils.parseString(parsedMessage));
+                getPlayer().sendMessage(AsureUtils.parseString(parsedMessage));
             }
         }
         if (actionConfig.contains("CloseMenu")) {
@@ -287,10 +287,10 @@ public class CustomGUI extends VinGUI {
                 }
             }
             if (!getPlayer().give(items).leftovers().isEmpty())
-                getPlayer().sendMessage(VineriumLib.inst().getLangManager().parseLangString(VineriumLib.inst(),"give_leftovers"));
+                getPlayer().sendMessage(AsureLib.inst().getLangManager().parseLangString(AsureLib.inst(),"give_leftovers"));
         }
         if (actionConfig.contains("Menu")) {
-            @Subst("vineriumlib:menu") String keyString = actionConfig.getString("Menu","");
+            @Subst("asurelib:menu") String keyString = actionConfig.getString("Menu","");
             NamespacedKey key = NamespacedKey.fromString(keyString);
             CustomGUI customGUI = new CustomGUI(getPlayer(),key);
             if (!customGUI.getConfig().getBoolean("ReplaceInventory",false))
@@ -350,9 +350,9 @@ public class CustomGUI extends VinGUI {
     }
 
     private String parseMessagePlaceholders(ConfigurationSection iconConfig, String message) {
-        if (iconConfig.contains("Price.Money") && VineriumLib.inst().getVaultManager() != null && VineriumLib.inst().getVaultManager().getEconomyProvider() != null)
+        if (iconConfig.contains("Price.Money") && AsureLib.inst().getVaultManager() != null && AsureLib.inst().getVaultManager().getEconomyProvider() != null)
             message = message.replace("%money%",Double.toString(iconConfig.getDouble("Price.Money")));
-        if (VineriumLib.inst().isPlaceholderAPIEnabled())
+        if (AsureLib.inst().isPlaceholderAPIEnabled())
             message = PlaceholderAPI.setPlaceholders(getPlayer(), message);
         return message;
     }

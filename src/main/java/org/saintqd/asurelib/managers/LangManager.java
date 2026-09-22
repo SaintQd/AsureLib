@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.managers;
+package org.saintqd.asurelib.managers;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -6,9 +6,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
-import org.saintqd.vineriumlib.utils.VinUtils;
+import org.saintqd.asurelib.utils.AsureUtils;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.HashMap;
 
@@ -34,13 +33,13 @@ public class LangManager {
         HashMap<Key,String> langLines = new HashMap<>();
         File langFile = new File(path);
         if (!langFile.exists()) {
-            VinUtils.sendDebugMessage(0,"<yellow>Lang file "+langFile+" does not exist!");
+            AsureUtils.sendDebugMessage(0,"<yellow>Lang file "+langFile+" does not exist!");
             return langLines;
         }
         YamlConfiguration langFileYaml = YamlConfiguration.loadConfiguration(langFile);
         ConfigurationSection langFileConfig = langFileYaml.getConfigurationSection("Lang");
         for (String identifier : langFileConfig.getKeys(false)) {
-            @Subst("vineriumlib.value") String keyValue = identifier.toLowerCase();
+            @Subst("asurelib.value") String keyValue = identifier.toLowerCase();
             Key langKey = Key.key(plugin,keyValue);
             langLines.put(langKey,langFileConfig.getString(identifier));
         }
@@ -48,7 +47,7 @@ public class LangManager {
     }
 
     public Component parseLangString(Plugin plugin, String identifier, String... args) {
-        @Subst("vineriumlib.value") String keyValue = identifier.toLowerCase();
+        @Subst("asurelib.value") String keyValue = identifier.toLowerCase();
         Key key = Key.key(plugin,keyValue);
         return parseLangString(key,identifier,args);
     }
@@ -61,19 +60,19 @@ public class LangManager {
         if (langLines.containsKey(key))
             line = langLines.get(key);
         else
-            return VinUtils.parseString(identifier);
-        if (args.length == 0) VinUtils.parseString(line);
+            return AsureUtils.parseString(identifier);
+        if (args.length == 0) AsureUtils.parseString(line);
 
         int index = 1;
         for (String arg : args) {
             line = line.replace("{"+index+"}",arg);
             index++;
         }
-        return VinUtils.parseString(line);
+        return AsureUtils.parseString(line);
     }
 
     public String getRawLangString(Plugin plugin, String identifier) {
-        @Subst("vineriumlib.value") String keyValue = identifier.toLowerCase();
+        @Subst("asurelib.value") String keyValue = identifier.toLowerCase();
         Key key = Key.key(plugin,keyValue);
         String line = langLines.get(key);
         if (line != null)

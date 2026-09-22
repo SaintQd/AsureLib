@@ -1,11 +1,11 @@
-package org.saintqd.vineriumlib.managers;
+package org.saintqd.asurelib.managers;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.saintqd.vineriumlib.VineriumLib;
-import org.saintqd.vineriumlib.utils.VinUtils;
+import org.saintqd.asurelib.AsureLib;
+import org.saintqd.asurelib.utils.AsureUtils;
 
 public class VaultManager {
 
@@ -15,32 +15,32 @@ public class VaultManager {
 
     public void loadVault() {
         if (!setupPermissions()) {
-            VinUtils.sendDebugMessage(0,"<yellow>Permissions provider isn't found. Permission support won't be loaded.");
+            AsureUtils.sendDebugMessage(0,"<yellow>Permissions provider isn't found. Permission support won't be loaded.");
         }
         if (!setupEconomy()) {
-            VinUtils.sendDebugMessage(0,"<yellow>Economy provider isn't found. Economy support won't be loaded.");
+            AsureUtils.sendDebugMessage(0,"<yellow>Economy provider isn't found. Economy support won't be loaded.");
         }
         if (!setupChat()) {
-            VinUtils.sendDebugMessage(0,"<yellow>Chat provider isn't found. Chat support won't be loaded.");
+            AsureUtils.sendDebugMessage(0,"<yellow>Chat provider isn't found. Chat support won't be loaded.");
         }
     }
 
     private boolean setupChat() {
-        RegisteredServiceProvider<Chat> rsp = VineriumLib.inst().getServer().getServicesManager().getRegistration(Chat.class);
+        RegisteredServiceProvider<Chat> rsp = AsureLib.inst().getServer().getServicesManager().getRegistration(Chat.class);
         if (rsp != null)
             chatProvider = rsp.getProvider();
         return chatProvider != null;
     }
 
     private boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> rsp = VineriumLib.inst().getServer().getServicesManager().getRegistration(Economy.class);
+        RegisteredServiceProvider<Economy> rsp = AsureLib.inst().getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp != null)
             economyProvider = rsp.getProvider();
         return economyProvider != null;
     }
 
     private boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = VineriumLib.inst().getServer().getServicesManager().getRegistration(Permission.class);
+        RegisteredServiceProvider<Permission> rsp = AsureLib.inst().getServer().getServicesManager().getRegistration(Permission.class);
         if (rsp != null)
             permissionProvider = rsp.getProvider();
         return permissionProvider != null;

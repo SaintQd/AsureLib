@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.managers;
+package org.saintqd.asurelib.managers;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;

@@ -1,9 +1,9 @@
-package org.saintqd.vineriumlib.utils;
+package org.saintqd.asurelib.utils;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.saintqd.vineriumlib.VineriumLib;
+import org.saintqd.asurelib.AsureLib;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public class MMAbilityData {
     }
 
     public static io.lumine.mythic.api.skills.SkillMetadata prepareMMSkillData(Entity caster) {
-        if (!VineriumLib.inst().isMythicMobsEnabled())
+        if (!AsureLib.inst().isMythicMobsEnabled())
             return null;
         io.lumine.mythic.api.skills.SkillMetadata skillData;
         if (caster != null) {
@@ -45,7 +45,7 @@ public class MMAbilityData {
     }
 
     public static boolean executeMMSkill(String skillName, io.lumine.mythic.api.skills.SkillMetadata data) {
-        if (!VineriumLib.inst().isMythicMobsEnabled())
+        if (!AsureLib.inst().isMythicMobsEnabled())
             return false;
         Optional<io.lumine.mythic.api.skills.Skill> possibleSkill = io.lumine.mythic.api.MythicProvider.get().getSkillManager().getSkill(skillName);
         if (possibleSkill.isPresent()) {
@@ -58,13 +58,13 @@ public class MMAbilityData {
                 return false;
         }
         else {
-            VineriumLib.inst().getLogger().warning("MythicMobs skill " + skillName + " does not exist.");
+            AsureLib.inst().getLogger().warning("MythicMobs skill " + skillName + " does not exist.");
         }
         return false;
     }
 
     public static boolean checkIfMMSkillUsable(String skillName, io.lumine.mythic.api.skills.SkillMetadata data) {
-        if (!VineriumLib.inst().isMythicMobsEnabled())
+        if (!AsureLib.inst().isMythicMobsEnabled())
             return false;
         Optional<io.lumine.mythic.api.skills.Skill> possibleSkill = io.lumine.mythic.api.MythicProvider.get().getSkillManager().getSkill(skillName);
         if (possibleSkill.isPresent()) {
@@ -72,7 +72,7 @@ public class MMAbilityData {
             return skill.isUsable(data);
         }
         else {
-            VineriumLib.inst().getLogger().warning("MythicMobs skill " + skillName + " does not exist.");
+            AsureLib.inst().getLogger().warning("MythicMobs skill " + skillName + " does not exist.");
         }
         return false;
     }

@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
-    compileOnly("io.lumine:Mythic-Dist:5.12.2-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.2+")
+    compileOnly("io.lumine:Mythic-Dist:5.+")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("me.clip:placeholderapi:2.11.6") // repo.extendedclip.com
     compileOnly("com.discordsrv:discordsrv:1.30.2")
@@ -63,7 +63,7 @@ publishing {
         }
     }
 
-    repositories {
+    /*repositories {
         maven {
 
             val properties = Properties()
@@ -73,8 +73,8 @@ publishing {
                     properties.load(it)
                 }
 
-                val releasesUrl = uri("https://nexus.vinerium.tech/repository/maven-releases/")
-                val snapshotsUrl = uri("https://nexus.vinerium.tech/repository/maven-snapshots/")
+                val releasesUrl = uri("https://nexus.asure.tech/repository/maven-releases/")
+                val snapshotsUrl = uri("https://nexus.asure.tech/repository/maven-snapshots/")
 
                 url = if (version.toString().endsWith("SNAPSHOT")) snapshotsUrl else releasesUrl
 
@@ -82,5 +82,5 @@ publishing {
                 credentials.password = properties.getProperty("password")
             }
         }
-    }
+    }*/
 }

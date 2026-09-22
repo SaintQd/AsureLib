@@ -1,9 +1,9 @@
-name: VineriumLib
+name: AsureLib
 version: '1.0'
 author: SaintQd
-main: org.saintqd.vineriumlib.VineriumLib
-description: VineriumLib Plugin
-api-version: '1.21.8'
+main: org.saintqd.asurelib.AsureLib
+description: AsureLib Plugin
+api-version: '26.2'
 dependencies:
   server:
     Vault:

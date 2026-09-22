@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.utils;
+package org.saintqd.asurelib.utils;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -52,7 +52,7 @@ public class ResourceUtils {
                     }
                 }
             }
-            else VinUtils.sendDebugMessage(0,"<yellow>Could not create resource file at "+outputPath+"!");
+            else AsureUtils.sendDebugMessage(0,"<yellow>Could not create resource file at "+outputPath+"!");
         }
         else {
             String fileNameWithoutExt = outputPath.replaceFirst("[.][^.]+$","");

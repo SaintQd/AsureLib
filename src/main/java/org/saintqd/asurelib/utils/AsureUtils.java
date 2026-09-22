@@ -1,15 +1,14 @@
-package org.saintqd.vineriumlib.utils;
+package org.saintqd.asurelib.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import org.saintqd.vineriumlib.VineriumLib;
+import org.saintqd.asurelib.AsureLib;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class VinUtils {
+public class AsureUtils {
 
     public static void updateJarFile(Plugin plugin, File oldJarFile) {
         String pluginName = plugin.getName();
@@ -31,7 +30,7 @@ public class VinUtils {
                     newJarFile = new File(Bukkit.getWorldContainer().getAbsolutePath() + File.separator + "plugins" + File.separator + pluginName + counter + ".jar");
                     if (newJarFile.exists()) {
                         oldJarFile.deleteOnExit();
-                        VineriumLib.inst().getLogger().info("Found new JAR plugin file: "+newJarFile.getName()+", will rewrite on quit.");
+                        AsureLib.inst().getLogger().info("Found new JAR plugin file: "+newJarFile.getName()+", will rewrite on quit.");
                         return;
                     }
                     counter++;
@@ -39,7 +38,7 @@ public class VinUtils {
             }
             else {
                 oldJarFile.deleteOnExit();
-                VineriumLib.inst().getLogger().info("Found new JAR plugin file, will rewrite on quit.");
+                AsureLib.inst().getLogger().info("Found new JAR plugin file, will rewrite on quit.");
             }
         }
     }
@@ -62,13 +61,13 @@ public class VinUtils {
     }
 
     public static void sendDebugMessage(int selectedDebugLevel, @NotNull Set<String> debugCategories, @NotNull String message) {
-        int debugLevel = VineriumLib.inst().getDebugLevel();
-        Set<String> currentDebugCategories = VineriumLib.inst().getDebugCategories();
+        int debugLevel = AsureLib.inst().getDebugLevel();
+        Set<String> currentDebugCategories = AsureLib.inst().getDebugCategories();
         if (debugLevel >= selectedDebugLevel) {
             if (!debugCategories.isEmpty() && Collections.disjoint(currentDebugCategories, debugCategories))
                 return;
-            VineriumLib.inst().getServer().getConsoleSender().sendMessage(VinUtils.parseString(
-                    "<blue>["+VineriumLib.inst().getName()+" [Debug - Level "+ debugLevel + "/" + selectedDebugLevel + "] <gray>"+message));
+            AsureLib.inst().getServer().getConsoleSender().sendMessage(AsureUtils.parseString(
+                    "<blue>["+ AsureLib.inst().getName()+" [Debug - Level "+ debugLevel + "/" + selectedDebugLevel + "] <gray>"+message));
         }
     }
 

@@ -1,4 +1,4 @@
-package org.saintqd.vineriumlib.gui;
+package org.saintqd.asurelib.gui;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -8,14 +8,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class VinGUI {
+public class AsureGUI {
 
     private final Player player;
     private Inventory inventory;
     private final HashMap<Integer, ItemStack> items;
-    private final HashMap<Integer,VinGUIButton> buttons;
+    private final HashMap<Integer, AsureGUIButton> buttons;
 
-    public VinGUI(Player player) {
+    public AsureGUI(Player player) {
         this.player = player;
         this.inventory = null;
         this.items = new HashMap<>();
@@ -46,7 +46,7 @@ public class VinGUI {
         this.inventory = inventory;
     }
 
-    public HashMap<Integer, VinGUIButton> getButtons() {
+    public HashMap<Integer, AsureGUIButton> getButtons() {
         return buttons;
     }
 
@@ -63,7 +63,7 @@ public class VinGUI {
         if (event.getClick().isShiftClick() || event.getClick().isKeyboardClick())
             event.setCancelled(true);
         int slot = event.getRawSlot();
-        VinGUIButton button = buttons.get(slot);
+        AsureGUIButton button = buttons.get(slot);
         if (button != null)
             button.getEventConsumer().accept(event);
     }

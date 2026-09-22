@@ -1,6 +1,6 @@
-package org.saintqd.vineriumlib.utils;
+package org.saintqd.asurelib.utils;
 
-import org.saintqd.vineriumlib.VineriumLib;
+import org.saintqd.asurelib.AsureLib;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,7 +52,7 @@ public class SQLUtils {
             final String actualType = entry.getValue();
             if (!expectedType.equals(actualType)) {
                 if (showErrors) {
-                    VineriumLib.inst().getLogger().severe(
+                    AsureLib.inst().getLogger().severe(
                             "Expected type " + expectedType + " for column " + entry.getKey() + ", got " + actualType);
                 }
                 return false;

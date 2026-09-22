@@ -1,10 +1,10 @@
-package org.saintqd.vineriumlib.managers;
+package org.saintqd.asurelib.managers;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.saintqd.vineriumlib.utils.VinUtils;
+import org.saintqd.asurelib.utils.AsureUtils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -22,7 +22,7 @@ public class CustomGUIManager {
     public void registerGuis(Plugin plugin) {
         Path path = Paths.get(plugin.getDataFolder().getPath() + File.separator + "CustomGUIs");
         if (!Files.exists(path)) return;
-        List<Path> filePaths = VinUtils.listFilesInFolder(path.toString());
+        List<Path> filePaths = AsureUtils.listFilesInFolder(path.toString());
         for (Path filePath : filePaths) {
             File file = new File(filePath.toString());
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);

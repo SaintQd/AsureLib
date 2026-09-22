@@ -1,2 +1,2 @@
-rootProject.name = "VineriumLib"
+rootProject.name = "AsureLib"
 
