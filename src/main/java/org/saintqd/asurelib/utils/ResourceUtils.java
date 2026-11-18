@@ -66,6 +66,12 @@ public class ResourceUtils {
             File file = new File(backupOutputFileName);
             if (file.exists()) {
                 YamlConfiguration backupOutputYaml = YamlConfiguration.loadConfiguration(file);
+                // Если в исходном файле-шаблоне есть параметр $ignore_if_exists и целевой файл уже существует,
+                //   содержимое целевого файла не будет изменено
+                if (backupOutputYaml.getBoolean("$ignore_if_exists",false) && resourceFile.exists()) {
+                    file.delete();
+                    return;
+                }
                 YamlConfiguration resourceYaml = YamlConfiguration.loadConfiguration(resourceFile);
                 List<String> onceKeys = backupOutputYaml.getStringList("$onceKeys");
                 backupOutputYaml.set("$onceKeys", null);
